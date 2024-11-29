@@ -233,9 +233,10 @@ function bestMove() {
     players[user].isMiddleRightMarked && players[user].isTopRightMarked && !isBottomRightMarked  ? [8] :
     (players[0].isBottomLeftMarked && players[0].isTopRightMarked) ||
     (players[0].isTopLeftMarked && players[0].isBottomRightMarked) ?  options.filter(i => [1, 3, 5, 7].includes(i)) : 
-    ((players[0].isTopCenterMarked && players[0].isMiddleRightMarked) || (players[0].isMiddleRightMarked && players[0].isBottomCenter) ||
-    (players[0].isBottomCenter && players[0].isMiddleLeftMarked) || (players[0].isMiddleLeftMarked || players[0].isTopCenterMarked)) &&
-    !isMiddleCenterMarked ? [4] :
+    (players[0].isMiddleLeftMarked && players[0].isTopCenterMarked) && !isTopLeftMarked ? [0] :
+    (players[0].isTopCenterMarked && players[0].isMiddleRightMarked) && !isTopRightMarked ? [2] :
+    (players[0].isMiddleRightMarked && players[0].isBottomCenterMarked) && !isBottomRightMarked ? [8] :
+    (players[0].isBottomCenterMarked && players[0].isMiddleLeftMarked && !isBottomLeftMarked) ? [6] :
     false;
     // Agresive algorithm
     user = 1;
@@ -283,7 +284,7 @@ function bestMove() {
 }
 
 function firstMove() {
-    return isTopLeftMarked || isTopRightMarked || isBottomLeftMarked || isBottomRightMarked ? [4] : [0, 2, 6, 8]
+    return  !isMiddleCenterMarked ? [4] : [0, 2, 6, 8]
 }
 
 function nemBot() {
