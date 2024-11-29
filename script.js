@@ -58,7 +58,7 @@ let players = [
         color: "red",
         score: 0
     }
-]
+];
 // Verifica que la casilla seleccionada no este marcada y comprueba si hay un ganador
 function markTopLeft(user) {
     if (isTopLeftMarked) {
@@ -179,8 +179,8 @@ function isLeftColumnOpen() {
 }
 
 function isMiddleColumnOpen() {
-    return !(players[0].isBottomCenterMarked || players[0].isMiddleCenterMarked || players[0].isBottomCenterMarked) &&
-    (players[1].isBottomCenterMarked || players[1].isMiddleCenterMarked || players[1].isBottomCenterMarked)
+    return !(players[0].isBottomCenterMarked || players[0].isMiddleCenterMarked || players[0].isTopCenterMarked) &&
+    (players[1].isBottomCenterMarked || players[1].isMiddleCenterMarked || players[1].isTopCenterMarked)
 }
 
 function isRightColumnOpen() {
@@ -195,7 +195,7 @@ function isDiagonal1Open() {
 }
 
 function isDiagonal2Open() {
-    // deg clock-wise diagonal
+    // 45deg clock-wise diagonal
     return !(players[0].isBottomRightMarked || players[0].isMiddleCenterMarked || players[0].isTopLeftMarked) &&
     (players[1].isBottomRightMarked || players[1].isMiddleCenterMarked || players[1].isTopLeftMarked)
 }
@@ -231,6 +231,11 @@ function bestMove() {
     players[user].isBottomRightMarked && players[user].isMiddleRightMarked && !isTopRightMarked  ? [2] :
     players[user].isBottomRightMarked && players[user].isTopRightMarked && !isMiddleRightMarked  ? [5] :
     players[user].isMiddleRightMarked && players[user].isTopRightMarked && !isBottomRightMarked  ? [8] :
+    (players[0].isBottomLeftMarked && players[0].isTopRightMarked) ||
+    (players[0].isTopLeftMarked && players[0].isBottomRightMarked) ?  options.filter(i => [1, 3, 5, 7].includes(i)) : 
+    ((players[0].isTopCenterMarked && players[0].isMiddleRightMarked) || (players[0].isMiddleRightMarked && players[0].isBottomCenter) ||
+    (players[0].isBottomCenter && players[0].isMiddleLeftMarked) || (players[0].isMiddleLeftMarked || players[0].isTopCenterMarked)) &&
+    !isMiddleCenterMarked ? [4] :
     false;
     // Agresive algorithm
     user = 1;
@@ -263,18 +268,18 @@ function bestMove() {
     players[user].isBottomRightMarked && players[user].isTopRightMarked && !isMiddleRightMarked  ? [5] :
     players[user].isMiddleRightMarked && players[user].isTopRightMarked && !isBottomRightMarked  ? [8] :
     false; 
-    const buildingMove = (players[0].isBottomLeftMarked && players[0].isTopRightMarked) ||
-    (players[0].isTopLeftMarked && players[0].isBottomRightMarked) ?  options.filter(i => [1, 3, 5, 7].includes(i)) : 
-    isTopRowOpen ? options.filter(i => [0, 1, 2].includes(i)) : 
+    const buildingMove = 
+    isTopRowOpen() ? options.filter(i => [0, 1, 2].includes(i)) : 
     isMiddleRowOpen() ? options.filter(i => [3, 4, 5].includes(i)) :
     isBottomRowOpen() ? options.filter(i => [6, 7, 8].includes(i)) :
     isLeftColumnOpen() ? options.filter(i => [0, 3, 6].includes(i)) :
     isMiddleColumnOpen() ? options.filter(i => [1, 4, 7].includes(i)) :
     isRightColumnOpen() ? options.filter(i => [2, 5, 8].includes(i)) :
     isDiagonal1Open() ? options.filter(i => [6, 4, 2].includes(i)) :
-    isDiagonal2Open() ? options.filter(i => [0, 4, 8].includes(i)) : options;
+    isDiagonal2Open() ? options.filter(i => [0, 4, 8].includes(i)) : 
+    options;
 
-    return resultAgresive ? resultAgresive : resultDefensive ? options.filter(i => resultDefensive.includes(i)) :  buildingMove
+    return resultAgresive ? resultAgresive : resultDefensive ? resultDefensive :  buildingMove
 }
 
 function firstMove() {
