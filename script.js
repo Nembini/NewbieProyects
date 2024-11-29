@@ -263,7 +263,9 @@ function bestMove() {
     players[user].isBottomRightMarked && players[user].isTopRightMarked && !isMiddleRightMarked  ? [5] :
     players[user].isMiddleRightMarked && players[user].isTopRightMarked && !isBottomRightMarked  ? [8] :
     false; 
-    const buildingMove = isTopRowOpen ? options.filter(i => [0, 1, 2].includes(i)) : 
+    const buildingMove = (players[0].isBottomLeftMarked && players[0].isTopRightMarked) ||
+    (players[0].isTopLeftMarked && players[0].isBottomRightMarked) ?  options.filter(i => [1, 3, 5, 7].includes(i)) : 
+    isTopRowOpen ? options.filter(i => [0, 1, 2].includes(i)) : 
     isMiddleRowOpen() ? options.filter(i => [3, 4, 5].includes(i)) :
     isBottomRowOpen() ? options.filter(i => [6, 7, 8].includes(i)) :
     isLeftColumnOpen() ? options.filter(i => [0, 3, 6].includes(i)) :
