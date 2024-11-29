@@ -1,0 +1,71 @@
+* {
+    box-sizing: border-box;
+    color: white;
+}
+
+body {
+    background-color: #1e1e1e;
+}
+
+.container {
+    margin: 0 auto;
+    background-color: grey;
+    width: 30vw;
+    height: 30vw;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.box {
+    width: calc(100% / 3);
+    height: calc(100% / 3);    
+    border: 2px solid black;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    font-size: 7vw;
+    font-family: "Sour Gummy";
+    font-weight: 400;
+}
+
+.score {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.winner {
+    text-align: center;
+    color: orange;
+    font-size: 3rem;
+}
+
+#restart {
+    display: block;
+    background-color: blueviolet;
+    margin: auto;
+    border-radius: 0.2rem;
+    height: 2rem;
+    width: 5rem;
+    cursor: pointer;
+}
+
+.box:hover {
+    cursor: pointer;
+    border-color: green;
+}
+
+.line {
+    position: relative;
+    width: 100%;
+    border: 2px solid black;
+    background-color: black;
+    border-radius: 1px;
+    top: calc(-15vw - 2px);
+    left: 0;
+    transform-origin: 50% 50%;
+    transform: rotate(0deg);
+}
+
+.hide {
+    display: none;
+}
